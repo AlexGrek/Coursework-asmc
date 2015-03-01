@@ -28,7 +28,16 @@ public class Coursework {
         String str = scanIn.nextLine();
         Path file = Paths.get(str);
         try {
-        List<String> strs = Files.readAllLines(file);
+            System.out.print("\t Note: you better place your file here: ");
+            System.out.println(new File(".").getCanonicalPath());
+            List<String> strs = Files.readAllLines(file);
+            int i = 0;
+            for(String s: strs) {
+                i++;
+                System.out.print(Integer.toString(i) + '\t' + s + '\n');
+            }
+            Parser p = new Parser();
+            p.parse(strs);
         } catch(IOException ex) {
             System.out.println("Sorry, cannot open this file :(\n" + ex.toString());
             System.exit(0);
