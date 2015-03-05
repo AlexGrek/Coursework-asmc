@@ -51,6 +51,7 @@ public class Lex {
         constDec, constHex, constBin, //константи
         data, //Ідентифікатор директиви даних 
         text,  //текстова константа
-        undefined //помилка - лексема невизначена
+        undefined, //помилка - лексема невизначена
+        dataDir // что будет значить data directives
     }
 }
