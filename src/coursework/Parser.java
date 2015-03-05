@@ -13,17 +13,20 @@ import java.util.ArrayList;
  * @author A. Prodan
  */
 public class Parser {
-    ArrayList<LexTable> lexTable;
+    ArrayList<LexTable> lexTables;
             
     public void parse(List<String> list) {
-        lexTable = new ArrayList<LexTable>();
+        lexTables = new ArrayList<>();
         for(String s: list) {
-            lexTable.add(new LexTable(s));
-            //TODO: remove that
-            for(String z: lexTable.get(0).toText()) {
-                System.out.println(z);
-            }
+            LexTable newlex = new LexTable(s);
+            lexTables.add(newlex);
         }
         
+        for(LexTable lt: lexTables) {
+            for(String str: lt.toText()) {
+                System.out.print(str + '\t');
+            }
+            System.out.println();
+        }
     }
 }
