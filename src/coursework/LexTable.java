@@ -74,6 +74,11 @@ public class LexTable {
         
         //try to compare value with known constants
         switch (pvalue) {
+            case "db":
+            case "dw":
+            case "dd":
+                t = Lex.Type.dataDir;
+                break;
             case "al":
             case "ah":
             case "bl":
