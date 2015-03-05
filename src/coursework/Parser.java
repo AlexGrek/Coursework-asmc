@@ -24,7 +24,7 @@ public class Parser {
         
         for(LexTable lt: lexTables) {
             for(String str: lt.toText()) {
-                System.out.print(str + '\t');
+                System.out.print(str + "   ");
             }
             System.out.println();
         }

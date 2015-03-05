@@ -52,6 +52,7 @@ public class Lex {
         data, //Ідентифікатор директиви даних 
         text,  //текстова константа
         undefined, //помилка - лексема невизначена
-        dataDir // что будет значить data directives
+        dataDir, // что будет значить data directives
+        dir // директива
     }
 }
