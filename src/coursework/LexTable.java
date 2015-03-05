@@ -24,7 +24,7 @@ public class LexTable {
     public List<String> toText() {
         List<String> lex = new ArrayList<String>();
         for(Lex l: lexems)
-            lex.add(l.getText() + " " + l.getType().name() + " : " + l.getLength());
+            lex.add(l.getText() + " [" + l.getType().name() + "(" + l.getLength() + ")]");
         return lex; 
     }
     
@@ -44,8 +44,26 @@ public class LexTable {
     //lexical analyser
     private void analyse(String s) {
         String lx = ""; //lexeme
+        boolean stringMode = false; //reading of string constant
+        char stringChar = ' '; //character the string begins and ends with
         
         for(int i = 0; i < s.length (); i++) {
+            if(stringMode) {
+                if (s.charAt(i) == stringChar) {
+                    stringMode = false;
+                    lx += stringChar;
+                    lexems.add(parseLex(lx));
+                    lx = "";
+                }
+                else {
+                    lx += s.charAt(i);
+                }
+            } else
+            if (s.charAt(i) == '\'' || s.charAt(i) == '"') {
+                stringMode = true;
+                stringChar = s.charAt(i);
+                lx += stringChar;
+            } else
             if (s.charAt(i) == ' ') {
                 if (!lx.isEmpty()) {
                     lexems.add(parseLex(lx));
@@ -109,6 +127,13 @@ public class LexTable {
             case "fs":
                 t = Lex.Type.seg;
                 break;
+            case "assume":
+            case "segment":
+            case "ends":
+            case "end":
+            case "equ":
+                t = Lex.Type.dir;
+                break;
             case "cli":
             case "inc":
             case "dec":
@@ -133,9 +158,9 @@ public class LexTable {
         }
         
         //try another way - maybe it's a text constant?
-        if (lex.startsWith("\"")) {
+        if (lex.startsWith("\"") || lex.startsWith("'")) {
             //yes, it is
-            if (lex.endsWith("\"") || lex.length() > 2) {
+            if ((lex.endsWith("\"") || lex.endsWith("'")) && lex.length() > 2) {
                 //return only text, without the " symbols
                 return new Lex(lex.substring(1, lex.length() - 2), Lex.Type.text);
             }
