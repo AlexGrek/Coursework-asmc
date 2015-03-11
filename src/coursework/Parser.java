@@ -5,8 +5,13 @@
  */
 package coursework;
 
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -27,6 +32,24 @@ public class Parser {
                 System.out.print(str + "   ");
             }
             System.out.println();
+        }
+        
+        ShowLexTables();
+    }
+    
+    public void ShowLexTables() {
+        try (PrintWriter writer = new PrintWriter("lexTable.txt", "UTF-8")) {
+            writer.println("Таблиця лексем");
+            for(LexTable lt: lexTables) {
+                for(String str: lt.toText()) {
+                    writer.print(str + "   ");
+                }
+            writer.println();
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("Error: File not found");
+        } catch (UnsupportedEncodingException ex) {
+            System.out.println("Error: Unsupported Encoding");
         }
     }
 }

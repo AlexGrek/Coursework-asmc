@@ -33,7 +33,7 @@ public class LexTable {
      */
     private static boolean isOneSymbol(char c) {
         return c == ':' || c == '[' || c == ']' || 
-                c == ',' || c == '+';
+                c == ',' || c == '+' || c == '(' || c == ')';
     }
     
     private static Lex parseOneSymbol(char c) {
