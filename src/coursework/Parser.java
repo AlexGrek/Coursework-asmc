@@ -19,9 +19,12 @@ import java.util.logging.Logger;
  */
 public class Parser {
     ArrayList<LexTable> lexTables;
+    
+    public Parser() {
+        lexTables = new ArrayList<>();
+    }
             
     public void parse(List<String> list) {
-        lexTables = new ArrayList<>();
         for(String s: list) {
             LexTable newlex = new LexTable(s);
             lexTables.add(newlex);
@@ -37,7 +40,19 @@ public class Parser {
         ShowLexTables();
     }
     
+    public void parse(String s) {
+        
+            LexTable newlex = new LexTable(s);
+            lexTables.add(newlex);
+    }
+    
     public void ShowLexTables() {
+         for(LexTable lt: lexTables) {
+            for(String str: lt.toText()) {
+                System.out.print(str + "   ");
+            }
+            System.out.println();
+        }
         try (PrintWriter writer = new PrintWriter("lexTable.txt", "UTF-8")) {
             writer.println("Таблиця лексем");
             for(LexTable lt: lexTables) {

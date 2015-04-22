@@ -12,6 +12,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.io.BufferedReader;
+import java.io.FileReader;
 
 /**
  *
@@ -26,22 +28,25 @@ public class Coursework {
         Scanner scanIn = new Scanner(System.in);
         System.out.println("What should I compile?");
         String str = scanIn.nextLine();
-        Path file = Paths.get(str);
+        Parser p = new Parser();
         try {
             System.out.print("\t Note: you better place your file here: ");
             System.out.println(new File(".").getCanonicalPath());
-            List<String> strs = Files.readAllLines(file);
-            int i = 0;
-            for(String s: strs) {
-                i++;
-                System.out.print(Integer.toString(i) + '\t' + s + '\n');
+            
+            File file = new File(str);
+            FileReader fr = new FileReader(file);
+            BufferedReader reader = new BufferedReader(fr);
+            String line;
+            int i = 1;
+            while ((line = reader.readLine()) != null) {
+		p.parse(line);
+                System.out.printf("%d\t%s\n", i++, line);
             }
-            Parser p = new Parser();
-            p.parse(strs);
-        } catch(IOException ex) {
+            p.ShowLexTables();
+        } catch (IOException ex) {
             System.out.println("Sorry, cannot open this file :(\n" + ex.toString());
             System.exit(0);
         }
     }
-    
+
 }

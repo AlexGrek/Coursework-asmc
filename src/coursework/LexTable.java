@@ -64,7 +64,7 @@ public class LexTable {
                 stringChar = s.charAt(i);
                 lx += stringChar;
             } else
-            if (s.charAt(i) == ' ') {
+            if (s.charAt(i) == ' ' || s.charAt(i) == '\t') {
                 if (!lx.isEmpty()) {
                     lexems.add(parseLex(lx));
                     lx = "";
@@ -127,11 +127,11 @@ public class LexTable {
             case "fs":
                 t = Lex.Type.seg;
                 break;
-            case "assume":
             case "segment":
             case "ends":
             case "end":
             case "equ":
+            case "assume":
                 t = Lex.Type.dir;
                 break;
             case "cli":
