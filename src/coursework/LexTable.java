@@ -21,6 +21,16 @@ public class LexTable {
         analyse(inp);
     }
     
+    public Lex get(int n) {
+        return lexems.get(n);
+    }
+    
+    public Lex[] getArray() {
+        Lex[] array = new Lex[lexems.size()];
+        lexems.toArray(array);
+        return array;
+    }
+    
     public List<String> toText() {
         List<String> lex = new ArrayList<String>();
         for(Lex l: lexems)
@@ -177,8 +187,10 @@ public class LexTable {
                 try {
                     Integer.parseInt(lex.substring(0, lex.length() - 2), 2);
                     t = Lex.Type.constBin;
+                    return new Lex(pvalue, t);
                 } catch (NumberFormatException ex) {
                     //no, it's not a binary constant
+                    
                     return new Lex(pvalue, Lex.Type.undefined);
                 }
             } else
@@ -188,6 +200,7 @@ public class LexTable {
                 try {
                     Integer.parseInt(lex.substring(0, lex.length() - 2), 16);
                     t = Lex.Type.constHex;
+                    return new Lex(pvalue, t);
                 } catch (NumberFormatException ex) {
                     //no, it's not a hexadecimal constant
                     return new Lex(pvalue, Lex.Type.undefined);
@@ -199,6 +212,7 @@ public class LexTable {
                 try {
                     Integer.parseInt(lex, 10);
                     t = Lex.Type.constDec;
+                    return new Lex(pvalue, t);
                 } catch (NumberFormatException ex) {
                     //no, it's not a decimal constant
                     return new Lex(pvalue, Lex.Type.undefined);
@@ -210,6 +224,7 @@ public class LexTable {
                 try {
                     Integer.parseInt(lex.substring(0, lex.length() - 2), 10);
                     t = Lex.Type.constDec;
+                    return new Lex(pvalue, t);
                 } catch (NumberFormatException ex) {
                     //no, it's not a decimal constant at all
                     return new Lex(pvalue, Lex.Type.undefined);
@@ -220,7 +235,10 @@ public class LexTable {
                 return new Lex(pvalue, Lex.Type.undefined);
         }
         
-        //so it's a user-defined variable
-        return new Lex(pvalue, t);
+        //so maybe it's a user-defined variable
+        if (pvalue.length() <= 6 && pvalue.matches("^[a-z][0-9a-z]*$")) {
+            return new Lex(pvalue, t);
+        }
+        return new Lex(pvalue, Lex.Type.undefined);
     }
 }
