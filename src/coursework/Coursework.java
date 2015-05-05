@@ -28,7 +28,7 @@ public class Coursework {
         Scanner scanIn = new Scanner(System.in);
         System.out.println("What should I compile?");
         String str = scanIn.nextLine();
-        Parser p = new Parser();
+        Reader p = new Reader();
         try {
             System.out.print("\t Note: you better place your file here: ");
             System.out.println(new File(".").getCanonicalPath());
@@ -43,6 +43,7 @@ public class Coursework {
                 System.out.printf("%d\t%s\n", i++, line);
             }
             p.ShowLexTables();
+            p.doStuff();
         } catch (IOException ex) {
             System.out.println("Sorry, cannot open this file :(\n" + ex.toString());
             System.exit(0);
