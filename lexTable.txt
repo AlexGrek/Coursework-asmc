@@ -1,0 +1,117 @@
+Таблиця лексем
+.386 [undefined(4)]   
+data1 [userId(5)]   segment [dir(7)]   
+val1 [userId(4)]   dw [dataDir(2)]   0ah [constHex(3)]10   
+omega [userId(5)]   dd [dataDir(2)]   312 [constDec(3)]312   
+alpha [userId(5)]   db [dataDir(2)]   Prodan A [text(8)]   
+beta [userId(4)]   equ [dir(3)]   5 [constDec(1)]5   + [single(1)]   ( [single(1)]   10 [constDec(2)]10   - [single(1)]   8 [constDec(1)]8   ) [single(1)]   * [single(1)]   2 [constDec(1)]2   + [single(1)]   3 [constDec(1)]3   
+delta [userId(5)]   equ [dir(3)]   - [single(1)]   2 [constDec(1)]2   
+ulta [userId(4)]   equ [dir(3)]   8 [constDec(1)]8   
+gamma [userId(5)]   db [dataDir(2)]   0101b [constBin(5)]5   
+data1 [userId(5)]   ends [dir(4)]   
+
+code1 [userId(5)]   segment [dir(7)]   
+assume [dir(6)]   cs [seg(2)]   : [single(1)]   code1 [userId(5)]   , [single(1)]   ds [seg(2)]   : [single(1)]   data1 [userId(5)]   
+
+beg [userId(3)]   : [single(1)]   
+
+mov [instruct(3)]   eax [reg32(3)]   , [single(1)]   26h [constHex(3)]38   
+mov [instruct(3)]   al [reg8(2)]   , [single(1)]   delta [userId(5)]   
+mov [instruct(3)]   ah [reg8(2)]   , [single(1)]   5 [constDec(1)]5   + [single(1)]   ( [single(1)]   31 [constDec(2)]31   - [single(1)]   1 [constDec(1)]1   ) [single(1)]   * [single(1)]   4 [constDec(1)]4   
+moves [userId(5)]   : [single(1)]   mov [instruct(3)]   dh [reg8(2)]   , [single(1)]   123 [constDec(3)]123   
+mov [instruct(3)]   edi [reg32(3)]   , [single(1)]   3 [constDec(1)]3   
+mov [instruct(3)]   esp [reg32(3)]   , [single(1)]   beta [userId(4)]   
+mov [instruct(3)]   ebp [reg32(3)]   , [single(1)]   - [single(1)]   378 [constDec(3)]378   
+
+clis [userId(4)]   : [single(1)]   
+cli [instruct(3)]   
+jb [instruct(2)]   clis [userId(4)]   
+jb [instruct(2)]   incs [userId(4)]   
+
+inc [instruct(3)]   al [reg8(2)]   
+inc [instruct(3)]   ah [reg8(2)]   
+inc [instruct(3)]   bl [reg8(2)]   
+inc [instruct(3)]   bh [reg8(2)]   
+inc [instruct(3)]   dh [reg8(2)]   
+inc [instruct(3)]   cl [reg8(2)]   
+inc [instruct(3)]   eax [reg32(3)]   
+inc [instruct(3)]   esi [reg32(3)]   
+incs [userId(4)]   : [single(1)]   inc [instruct(3)]   ebx [reg32(3)]   
+inc [instruct(3)]   ebp [reg32(3)]   
+inc [instruct(3)]   esp [reg32(3)]   
+
+jb [instruct(2)]   incs [userId(4)]   
+jb [instruct(2)]   step [userId(4)]   
+step [userId(4)]   : [single(1)]   
+jb [instruct(2)]   step [userId(4)]   
+jb [instruct(2)]   clis [userId(4)]   
+jb [instruct(2)]   moves [userId(5)]   
+jb [instruct(2)]   beg [userId(3)]   
+
+dec [instruct(3)]   gamma [userId(5)]   [ [single(1)]   eax [reg32(3)]   + [single(1)]   edx [reg32(3)]   ] [single(1)]   
+dec [instruct(3)]   fs [seg(2)]   : [single(1)]   omega [userId(5)]   [ [single(1)]   ecx [reg32(3)]   + [single(1)]   edi [reg32(3)]   ] [single(1)]   
+dec [instruct(3)]   alpha [userId(5)]   [ [single(1)]   esp [reg32(3)]   + [single(1)]   esi [reg32(3)]   ] [single(1)]   
+dec [instruct(3)]   gamma [userId(5)]   [ [single(1)]   ebp [reg32(3)]   + [single(1)]   ebx [reg32(3)]   ] [single(1)]   
+dec [instruct(3)]   ss [seg(2)]   : [single(1)]   gamma [userId(5)]   [ [single(1)]   ebp [reg32(3)]   + [single(1)]   eax [reg32(3)]   ] [single(1)]   
+
+jb [instruct(2)]   ending [userId(6)]   
+
+divs [userId(4)]   : [single(1)]   
+div [instruct(3)]   al [reg8(2)]   
+div [instruct(3)]   ah [reg8(2)]   
+div [instruct(3)]   bl [reg8(2)]   
+div [instruct(3)]   bh [reg8(2)]   
+div [instruct(3)]   ch [reg8(2)]   
+div [instruct(3)]   cl [reg8(2)]   
+div [instruct(3)]   eax [reg32(3)]   
+div [instruct(3)]   esi [reg32(3)]   
+div [instruct(3)]   ebx [reg32(3)]   
+div [instruct(3)]   ebp [reg32(3)]   
+div [instruct(3)]   esp [reg32(3)]   
+
+jb [instruct(2)]   beg [userId(3)]   
+jb [instruct(2)]   divs [userId(4)]   
+
+adc [instruct(3)]   al [reg8(2)]   , [single(1)]   alpha [userId(5)]   [ [single(1)]   ecx [reg32(3)]   + [single(1)]   esi [reg32(3)]   ] [single(1)]   
+adc [instruct(3)]   ah [reg8(2)]   , [single(1)]   gs [seg(2)]   : [single(1)]   alpha [userId(5)]   [ [single(1)]   ebx [reg32(3)]   + [single(1)]   esp [reg32(3)]   ] [single(1)]   
+adc [instruct(3)]   ch [reg8(2)]   , [single(1)]   gamma [userId(5)]   [ [single(1)]   ebp [reg32(3)]   + [single(1)]   edi [reg32(3)]   ] [single(1)]   
+adc [instruct(3)]   eax [reg32(3)]   , [single(1)]   omega [userId(5)]   [ [single(1)]   esp [reg32(3)]   + [single(1)]   esi [reg32(3)]   ] [single(1)]   
+adc [instruct(3)]   ecx [reg32(3)]   , [single(1)]   omega [userId(5)]   [ [single(1)]   ebx [reg32(3)]   + [single(1)]   ebx [reg32(3)]   ] [single(1)]   
+jb [instruct(2)]   divs [userId(4)]   
+adc [instruct(3)]   esp [reg32(3)]   , [single(1)]   omega [userId(5)]   [ [single(1)]   ebp [reg32(3)]   + [single(1)]   ecx [reg32(3)]   ] [single(1)]   
+adc [instruct(3)]   edx [reg32(3)]   , [single(1)]   cs [seg(2)]   : [single(1)]   omega [userId(5)]   [ [single(1)]   ebx [reg32(3)]   + [single(1)]   edi [reg32(3)]   ] [single(1)]   
+
+jb [instruct(2)]   divs [userId(4)]   
+
+cmp [instruct(3)]   al [reg8(2)]   , [single(1)]   ah [reg8(2)]   
+cmp [instruct(3)]   al [reg8(2)]   , [single(1)]   al [reg8(2)]   
+cmp [instruct(3)]   ch [reg8(2)]   , [single(1)]   dl [reg8(2)]   
+cmp [instruct(3)]   bl [reg8(2)]   , [single(1)]   al [reg8(2)]   
+cmp [instruct(3)]   eax [reg32(3)]   , [single(1)]   ebx [reg32(3)]   
+cmp [instruct(3)]   ecx [reg32(3)]   , [single(1)]   edi [reg32(3)]   
+cmp [instruct(3)]   ebp [reg32(3)]   , [single(1)]   esp [reg32(3)]   
+cmp [instruct(3)]   edi [reg32(3)]   , [single(1)]   ecx [reg32(3)]   
+
+jb [instruct(2)]   ending [userId(6)]   
+
+and [instruct(3)]   alpha [userId(5)]   [ [single(1)]   ecx [reg32(3)]   + [single(1)]   esp [reg32(3)]   ] [single(1)]   , [single(1)]   al [reg8(2)]   
+and [instruct(3)]   alpha [userId(5)]   [ [single(1)]   ebp [reg32(3)]   + [single(1)]   edx [reg32(3)]   ] [single(1)]   , [single(1)]   ch [reg8(2)]   
+and [instruct(3)]   gs [seg(2)]   : [single(1)]   gamma [userId(5)]   [ [single(1)]   esi [reg32(3)]   + [single(1)]   ebx [reg32(3)]   ] [single(1)]   , [single(1)]   dl [reg8(2)]   
+and [instruct(3)]   omega [userId(5)]   [ [single(1)]   edx [reg32(3)]   + [single(1)]   esi [reg32(3)]   ] [single(1)]   , [single(1)]   eax [reg32(3)]   
+and [instruct(3)]   omega [userId(5)]   [ [single(1)]   esp [reg32(3)]   + [single(1)]   ecx [reg32(3)]   ] [single(1)]   , [single(1)]   esi [reg32(3)]   
+and [instruct(3)]   gs [seg(2)]   : [single(1)]   omega [userId(5)]   [ [single(1)]   edi [reg32(3)]   + [single(1)]   ebx [reg32(3)]   ] [single(1)]   , [single(1)]   ebp [reg32(3)]   
+
+xor [instruct(3)]   alpha [userId(5)]   [ [single(1)]   ecx [reg32(3)]   + [single(1)]   esp [reg32(3)]   ] [single(1)]   , [single(1)]   beta [userId(4)]   
+xor [instruct(3)]   alpha [userId(5)]   [ [single(1)]   ebp [reg32(3)]   + [single(1)]   edx [reg32(3)]   ] [single(1)]   , [single(1)]   delta [userId(5)]   
+xor [instruct(3)]   gs [seg(2)]   : [single(1)]   gamma [userId(5)]   [ [single(1)]   esi [reg32(3)]   + [single(1)]   ebx [reg32(3)]   ] [single(1)]   , [single(1)]   1 [constDec(1)]1   
+xor [instruct(3)]   omega [userId(5)]   [ [single(1)]   edx [reg32(3)]   + [single(1)]   esi [reg32(3)]   ] [single(1)]   , [single(1)]   127h [constHex(4)]295   
+xor [instruct(3)]   omega [userId(5)]   [ [single(1)]   esp [reg32(3)]   + [single(1)]   ecx [reg32(3)]   ] [single(1)]   , [single(1)]   - [single(1)]   101b [constBin(4)]5   
+xor [instruct(3)]   gs [seg(2)]   : [single(1)]   omega [userId(5)]   [ [single(1)]   edi [reg32(3)]   + [single(1)]   ebx [reg32(3)]   ] [single(1)]   , [single(1)]   345 [constDec(3)]345   - [single(1)]   91 [constDec(2)]91   - [single(1)]   ( [single(1)]   63 [constDec(2)]63   - [single(1)]   84 [constDec(2)]84   ) [single(1)]   / [single(1)]   2 [constDec(1)]2   
+ending [userId(6)]   : [single(1)]   
+code1 [userId(5)]   ends [dir(4)]   
+end [dir(3)]   
+
+
+
+
+
