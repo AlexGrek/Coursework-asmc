@@ -11,6 +11,7 @@ public class Data implements Errorable  {
     int[] data;
     int offset;
     String error;
+    String name;
     private Type type; //тип данных
     
     public Data(Lex[] lx, Map<String, Data> varTable, Segment seg, int o) {
@@ -29,6 +30,9 @@ public class Data implements Errorable  {
         
         //добавим переменную в таблицу переменных
         varTable.put(lx[0].getText(), this);
+        
+        //сохраним имя переменной
+        name = lx[0].getText();
         
         //сохраним смещение в сегменте
         offset = o;

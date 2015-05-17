@@ -136,13 +136,18 @@ public class Reader {
             lines[i] = line;
             i++;
         }
-        
+        /*
         i = 1;
         for(Line line: lines) {
             System.out.println(String.valueOf(i) + "\t" + line.print());  
             i++;
-        }
-        
+        }*/
+    }
+    
+    public String showLine(int i, String input) {
+        if (i >= lines.length)
+            return "String is out of range!";
+        return lines[i].print() + "  " + input;
     }
 
     /**
@@ -169,4 +174,58 @@ public class Reader {
             System.out.println("Error: Unsupported Encoding");
         }
     }
+        
+        public String[] showSymbols() {
+            String[] strs = new String[labels.size() + constants.size() + 
+                    variables.size() + 1]; //+1 for table header
+            int i = 0; //iterator
+            //выведем все переменные
+            strs[i++] = "NAME             TYPE  VALUE ATTR";
+            for(Data d : variables.values()) {
+                strs[i++] = String.format("%6s...........%-6s %04X %s",
+                        d.name, d.getType().toString(), 
+                        d.offset, dataSegment.getName());
+            }
+            //выведем все метки
+            for(Label d : labels.values()) {
+                strs[i++] = String.format("%6s...........%-6s %04X %s",
+                        d.getName(), "NEAR", 
+                        d.getOffset(), codeSegment.getName());
+            }
+            //выведем все константы и алиасы
+            
+            for(String key : constants.keySet()) {
+                Lex value = constants.get(key);
+                String s;
+                //если это значимый тип
+                if (value.isValueType()) {
+                    //отрицательные числа должны быть с минусом
+                    String output = value.getValue() >= 0 ? 
+                        String.format("%04X ", value.getValue()) : 
+                        String.format("-%04X ", -value.getValue());
+                    s = String.format("%6s...........%6s %s",
+                        key, "NUMBER", output);
+                } else { //если это просто алиас
+                    s = String.format("%6s...........%-6s %s",
+                        key, "ALIAS", value.getText());
+                }
+                
+                strs[i++] = s;
+            }
+            return strs;
+        }
+        
+        public String[] showSegments() {
+            String[] strs = new String[3]; //2 segments + 1 for table header
+            if (codeSegment == null || dataSegment == null) {
+                strs[0] = " error: not all segments are defined";
+                return strs;
+            }
+            strs[0] = "NAME             SIZE   LENGTH";
+            strs[1] = String.format("%-6s...........32 Bit %04X", 
+                    dataSegment.getName(), dataSegment.size);
+            strs[2] = String.format("%-6s...........32 Bit %04X", 
+                    codeSegment.getName(), codeSegment.size);
+            return strs;
+        }
 }

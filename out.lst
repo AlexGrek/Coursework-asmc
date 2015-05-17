@@ -1,0 +1,142 @@
+A. Prodan's assembler
+
+ error: undefined symbols in line error: unknown string content  .386
+0000   Data1 Segment
+0000  000A   val1     dw 0ah
+0002  00000138   omega    dd 312 
+0006  50 72 6F 64 61 6E 20 41 2E   alpha    db 'Prodan A.'
+= 000C   beta    equ 5+(10-8)*2+3
+=-0002   delta equ -2
+= 0008   ulta equ 8
+=  sex equ eax
+000F  05   gamma    db 0101b
+0010   Data1 ends
+  
+0000   Code1 Segment 
+ error: unknown string content  	assume cs : code1, ds : data1
+  	
+0000   	beg:
+  	
+0000  38      mov eax, 26h
+0005  -2  	mov al, delta
+0007  125  	mov ah, 5+(31-1)*4
+0009  123  	moves:mov dh, 123
+000B  3  	mov edi, 3
+0010  12  	mov esp, beta
+0015  -378  	mov ebp, -378
+  	
+001A   	clis:
+001A  FA       cli
+001B  72 FD   	jb clis
+001D  0F 82 00000031   	jb incs
+  	
+0023  FE C0       inc al 
+0025  FE C4   	inc ah
+0027  FE C3   	inc bl
+0029  FE C7   	inc bh
+002B  FE C6   	inc dh
+002D  FE C1   	inc cl
+002F  40   	inc eax
+0030  46   	inc esi
+0031  43   	incs:inc ebx
+0032  45   	inc ebp
+0033  44   	inc esp
+  	
+0034  72 FB   	jb incs
+0036  0F 82 0000003C   	jb step
+003C   	step:
+003C  72 FE   	jb step
+003E  72 DA   	jb clis
+0040  72 C7   	jb moves
+0042  72 BC   	jb beg
+  		
+0044  FE 8C10 0000000F  	dec gamma[eax+edx]
+004B  64: FF 8C39 00000002  	dec fs:omega[ecx+edi]
+0053  3E: FE 8C34 00000006  	dec alpha[esp+esi]
+005B  3E: FE 8C1D 0000000F  	dec gamma[ebp+ebx]
+0063  FE 8C05 0000000F  	dec ss:gamma[ebp+eax]
+  	
+006A  0F 82 00000148   	jb ending
+  	
+0070   	divs:
+0070  F6 F0   	div al
+0072  F6 F4   	div ah
+0074  F6 F3   	div bl
+0076  F6 F7   	div bh
+0078  F6 F5   	div ch
+007A  F6 F1   	div cl
+007C  F7 F0   	div eax
+007E  F7 F6   	div esi
+0080  F7 F3   	div ebx
+0082  F7 F5   	div ebp
+0084  F7 F4   	div esp
+  	
+0086  0F 82 00000000   	jb beg
+008C  72 E2   	jb divs
+  	
+008E  yellow unicorn  	adc al, alpha[ecx+esi]
+0095  yellow unicorn  	adc ah, gs:alpha[ebx+esp]
+009D  yellow unicorn  	adc ch, gamma[ebp+edi]
+00A5  yellow unicorn  	adc eax, omega[esp+esi]
+00AD  yellow unicorn  	adc ecx, omega[ebx+ebx]
+00B4  72 BA   	jb divs
+00B6  yellow unicorn  	adc esp, omega[ebp+ecx]
+00BE  yellow unicorn      adc edx, cs:omega[ebx+edi]
+  	
+00C6  72 A8   	jb divs
+  	
+00C8  3A C4   	cmp al, ah
+00CA  3A C0   	cmp al, al
+00CC  3A EA   	cmp ch, dl
+00CE  3A D8   	cmp bl, al
+00D0  3B C3   	cmp eax, ebx
+00D2  3B CF   	cmp ecx, edi
+00D4  3B EC   	cmp ebp, esp
+00D6  3B F9   	cmp edi, ecx
+  	
+00D8  0F 82 00000148   	jb ending
+  	
+00DE  HELLOMOTO  	and alpha[ecx+esp], al
+00E6  HELLOMOTO  	and alpha[ebp+edx], ch
+00EE  HELLOMOTO  	and gs: gamma[esi+ebx], dl
+00F6  HELLOMOTO  	and omega[edx+esi], eax
+00FD  HELLOMOTO  	and omega[esp+ecx], esi
+0105  HELLOMOTO  	and gs: omega[edi+ebx], ebp
+  	
+010D  12  	xor alpha[ecx+esp], beta
+0116  -2  	xor alpha[ebp+edx], delta
+011F  1  	xor gs: gamma[esi+ebx], 1
+0128  295  	xor omega[edx+esi], 127h
+0133  -5  	xor omega[esp+ecx], -101b
+013C  264  	xor gs: omega[edi+ebx], 345-91-(63-84)/2
+0148   	ending:
+0148   Code1 ends
+file ended, bitch!  end
+  
+  
+  
+  
+  
+
+Segments:
+NAME             SIZE   LENGTH
+data1 ...........32 Bit 0010
+code1 ...........32 Bit 0148
+
+Symbols:
+NAME             TYPE  VALUE ATTR
+  val1...........DW     0000 data1
+ alpha...........DB     0006 data1
+ omega...........DD     0002 data1
+ gamma...........DB     000F data1
+ending...........NEAR   0148 code1
+  incs...........NEAR   0031 code1
+   beg...........NEAR   0000 code1
+ moves...........NEAR   0009 code1
+  step...........NEAR   003C code1
+  clis...........NEAR   001A code1
+  divs...........NEAR   0070 code1
+  ulta...........NUMBER 0008 
+   sex...........ALIAS  eax
+ delta...........NUMBER -0002 
+  beta...........NUMBER 000C 

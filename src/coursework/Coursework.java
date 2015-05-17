@@ -14,6 +14,7 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.PrintWriter;
 
 /**
  *
@@ -44,6 +45,38 @@ public class Coursework {
             }
             p.ShowLexTables();
             p.doStuff();
+            fr = new FileReader(file);
+            reader = new BufferedReader(fr); //для чтения файла сначала
+            //для записи в новый файл
+            PrintWriter writer = new PrintWriter("out.lst", "UTF-8");
+            writer.println("A. Prodan's assembler\n");
+            i = 0;
+            while ((line = reader.readLine()) != null) {
+		String s = p.showLine(i, line);
+                System.out.println(s);
+                writer.println(s);
+                i++;
+            }
+            
+            String[] segs = p.showSegments();
+            writer.println("\nSegments:");
+            for (String s : segs) {
+                if (s == null)
+                    break;
+                System.out.println(s);
+                writer.println(s);
+            }
+            
+            String[] symbols = p.showSymbols();
+            writer.println("\nSymbols:");
+            for (String s : symbols) {
+                if (s == null)
+                    break;
+                System.out.println(s);
+                writer.println(s);
+            }
+            
+            writer.close();
         } catch (IOException ex) {
             System.out.println("Sorry, cannot open this file :(\n" + ex.toString());
             System.exit(0);

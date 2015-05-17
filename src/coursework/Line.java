@@ -219,6 +219,7 @@ public class Line {
             Label lab = new Label(lext.get(0).getText(), 
                     current.getOffset(), current.openSegment);
             current.labels.put(lab.getName(), lab); //запишем ее в таблицу
+            offset = current.getOffset(); //запишем на строку с ней ее смещение
             
             //если на строке только метка - то на этом закончим
             if (lext.size() == 2)
@@ -273,11 +274,14 @@ public class Line {
         if (error != null) {
             s += " error: " + error;
         }
+        if (type == Type.UNKNOWN) {
+            s += " error: unknown string content";
+        }
         if (output != null) {
             s += output;
         }
         if (content != null) {
-            s += content.getClass().toString() + " " + content.toString();
+            s += " " + content.toString();
         }
         return s;
     }
