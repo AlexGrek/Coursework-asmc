@@ -3,8 +3,10 @@ package coursework;
 
 import java.util.Map;
 
-
-
+/**
+ * Представляет инструкцию DEC mem
+ * 
+ */
 public class Dec extends Instruct {
     
     Data mem;
@@ -57,7 +59,7 @@ public class Dec extends Instruct {
         
         //установим целевой сегмент, если не указан явно
         if (actualSeg == null) {
-            actualSeg = mem.segment.usedIn;
+            actualSeg = "ds";
         }
         dataType = mem.getType();
         
@@ -95,6 +97,22 @@ public class Dec extends Instruct {
                 return error;
             }
             
-            return String.valueOf(getSize()) + " " + reg1 + " " + reg2 + this.actualSeg;
+            //префикс замены сегмента, если он нужен
+            String out = segmentOverride(actualSeg, defaultSeg);
+            
+            //код операции
+            int opcode = 0xFE; //для 8-разрядных данных
+            if (dataType == Data.Type.DD)
+                opcode++; //FF для 32-разрядных
+            
+            int modrm = 0x8C; //10 001 100
+            
+            String sib = getSib(reg1, reg2);
+            
+            //это смещение переменной
+            String memOffset = String.format("%08X", mem.offset);
+            
+            out += String.format("%02X %02X%s%s", opcode, modrm, sib, memOffset);
+            return out;
         }
 }

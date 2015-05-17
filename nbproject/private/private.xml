@@ -3,18 +3,16 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Alexander/Documents/GitHub/Coursework-asmc-master/src/coursework/Dec.java</file>
-            <file>file:/C:/Users/Alexander/Documents/GitHub/Coursework-asmc-master/src/coursework/Instruct.java</file>
-            <file>file:/C:/Users/Alexander/Documents/GitHub/Coursework-asmc-master/src/coursework/And.java</file>
-            <file>file:/C:/Users/Alexander/Documents/GitHub/Coursework-asmc-master/src/coursework/Errorable.java</file>
-            <file>file:/C:/Users/Alexander/Documents/GitHub/Coursework-asmc-master/src/coursework/Lex.java</file>
-            <file>file:/C:/Users/Alexander/Documents/GitHub/Coursework-asmc-master/src/coursework/Data.java</file>
-            <file>file:/C:/Users/Alexander/Documents/GitHub/Coursework-asmc-master/src/coursework/Inc.java</file>
-            <file>file:/C:/Users/Alexander/Documents/GitHub/Coursework-asmc-master/src/coursework/Xor.java</file>
-            <file>file:/C:/Users/Alexander/Documents/GitHub/Coursework-asmc-master/src/coursework/Line.java</file>
-            <file>file:/C:/Users/Alexander/Documents/GitHub/Coursework-asmc-master/src/coursework/Reader.java</file>
-            <file>file:/C:/Users/Alexander/Documents/GitHub/Coursework-asmc-master/src/coursework/Adc.java</file>
-            <file>file:/C:/Users/Alexander/Documents/GitHub/Coursework-asmc-master/src/coursework/LexTable.java</file>
+            <file>file:/home/alex/NetBeansProjects/Coursework-asmc/src/coursework/Adc.java</file>
+            <file>file:/home/alex/NetBeansProjects/Coursework-asmc/src/coursework/Reader.java</file>
+            <file>file:/home/alex/NetBeansProjects/Coursework-asmc/src/coursework/Line.java</file>
+            <file>file:/home/alex/NetBeansProjects/Coursework-asmc/src/coursework/Data.java</file>
+            <file>file:/home/alex/NetBeansProjects/Coursework-asmc/src/coursework/And.java</file>
+            <file>file:/home/alex/NetBeansProjects/Coursework-asmc/src/coursework/Xor.java</file>
+            <file>file:/home/alex/NetBeansProjects/Coursework-asmc/src/coursework/Lex.java</file>
+            <file>file:/home/alex/NetBeansProjects/Coursework-asmc/src/coursework/Segment.java</file>
+            <file>file:/home/alex/NetBeansProjects/Coursework-asmc/src/coursework/Dec.java</file>
+            <file>file:/home/alex/NetBeansProjects/Coursework-asmc/src/coursework/Instruct.java</file>
         </group>
     </open-files>
 </project-private>

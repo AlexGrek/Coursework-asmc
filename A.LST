@@ -1,0 +1,198 @@
+Microsoft (R) Macro Assembler Version 5.00                  5/16/15 16:58:52
+                                                             Page     1-1
+
+
+				.386 
+ 0000				Data1 Segment 
+ 0000  000A			val1     dw 0ah 
+ 0002  38010000			omega    dd 312  
+ 0006  50 72 6F 64 61 6E 20	alpha    db 'Prodan A.' 
+       41 2E			
+ = 000C				beta    equ 5+(10-8)*2+3 
+ =-0002				delta equ -2 
+ = 0008				ulta equ 8 
+ =				sex equ eax 
+ 000F  05			gamma    db 0101b 
+ 0010				Data1 ends 
+				 
+ 0000				Code1 Segment  
+					assume cs : code1, ds : data1 
+					 
+ 0000					beg: 
+					 
+ 0000  B8 00000026		    mov eax, 26h 
+ 0005  B0 FE				mov al, delta 
+ 0007  B4 7D				mov ah, 5+(31-1)*4 
+ 0009  B6 7B				moves:mov dh, 123 
+ 000B  BF 00000003			mov edi, 3 
+ 0010  BC 0000000C			mov esp, beta 
+ 0015  BD FFFFFE86			mov ebp, -378 
+					 
+ 001A					clis: 
+ 001A  FA			    cli 
+ 001B  72 FD				jb clis 
+ 001D  0F 82 00000031 R			jb incs 
+					 
+ 0023  FE C0			    inc al  
+ 0025  FE C4				inc ah 
+ 0027  FE C3				inc bl 
+ 0029  FE C7				inc bh 
+ 002B  FE C6				inc dh 
+ 002D  FE C1				inc cl 
+ 002F  40				inc eax 
+ 0030  46				inc esi 
+ 0031  43				incs:inc ebx 
+ 0032  45				inc ebp 
+ 0033  44				inc esp 
+					 
+ 0034  72 FB				jb incs 
+ 0036  0F 82 0000003C R			jb step 
+ 003C					step: 
+ 003C  72 FE				jb step 
+ 003E  72 DA				jb clis 
+ 0040  72 C7				jb moves 
+ 0042  72 BC				jb beg 
+						 
+ 0044  FE 8C10 0000000F R		dec gamma[eax+edx] 
+ 004B  64: FF 8C39 00000002		dec fs:omega[ecx+edi] 
+	R			
+Microsoft (R) Macro Assembler Version 5.00                  5/16/15 16:58:52
+                                                             Page     1-2
+
+
+ 0053  3E: FE 8C34 00000006		dec alpha[esp+esi] 
+	R			
+ 005B  3E: FE 8C1D 0000000F		dec gamma[ebp+ebx] 
+	R			
+ 0063  FE 8C05 0000000F R		dec ss:gamma[ebp+eax] 
+					 
+ 006A  0F 82 00000148 R			jb ending 
+					 
+ 0070					divs: 
+ 0070  F6 F0				div al 
+ 0072  F6 F4				div ah 
+ 0074  F6 F3				div bl 
+ 0076  F6 F7				div bh 
+ 0078  F6 F5				div ch 
+ 007A  F6 F1				div cl 
+ 007C  F7 F0				div eax 
+ 007E  F7 F6				div esi 
+ 0080  F7 F3				div ebx 
+ 0082  F7 F5				div ebp 
+ 0084  F7 F4				div esp 
+					 
+ 0086  0F 82 00000000 R			jb beg 
+ 008C  72 E2				jb divs 
+					 
+ 008E  12 8431 00000006 R		adc al, alpha[ecx+esi] 
+ 0095  65: 12 A41C 00000006		adc ah, gs:alpha[ebx+esp] 
+	R			
+ 009D  3E: 12 AC3D 0000000F		adc ch, gamma[ebp+edi] 
+	R			
+ 00A5  3E: 13 8434 00000002		adc eax, omega[esp+esi] 
+	R			
+ 00AD  13 8C1B 00000002 R		adc ecx, omega[ebx+ebx] 
+ 00B4  72 BA				jb divs 
+ 00B6  3E: 13 A40D 00000002		adc esp, omega[ebp+ecx] 
+	R			
+ 00BE  2E: 13 943B 00000002	    adc edx, cs:omega[ebx+edi] 
+	R			
+					 
+ 00C6  72 A8				jb divs 
+					 
+ 00C8  3A C4				cmp al, ah 
+ 00CA  3A C0				cmp al, al 
+ 00CC  3A EA				cmp ch, dl 
+ 00CE  3A D8				cmp bl, al 
+ 00D0  3B C3				cmp eax, ebx 
+ 00D2  3B CF				cmp ecx, edi 
+ 00D4  3B EC				cmp ebp, esp 
+ 00D6  3B F9				cmp edi, ecx 
+					 
+ 00D8  0F 82 00000148 R			jb ending 
+					 
+ 00DE  3E: 20 840C 00000006		and alpha[ecx+esp], al 
+	R			
+ 00E6  3E: 20 AC15 00000006		and alpha[ebp+edx], ch 
+Microsoft (R) Macro Assembler Version 5.00                  5/16/15 16:58:52
+                                                             Page     1-3
+
+
+	R			
+ 00EE  65: 20 941E 0000000F		and gs: gamma[esi+ebx], dl 
+	R			
+ 00F6  21 8432 00000002 R		and omega[edx+esi], eax 
+ 00FD  3E: 21 B40C 00000002		and omega[esp+ecx], esi 
+	R			
+ 0105  65: 21 AC1F 00000002		and gs: omega[edi+ebx], ebp 
+	R			
+					 
+ 010D  3E: 80 B40C 00000006		xor alpha[ecx+esp], beta 
+	R 0C			
+ 0116  3E: 80 B415 00000006		xor alpha[ebp+edx], delta 
+	R FE			
+ 011F  65: 80 B41E 0000000F		xor gs: gamma[esi+ebx], 1 
+	R 01			
+ 0128  81 B432 00000002 R		xor omega[edx+esi], 127h 
+       00000127			
+ 0133  3E: 83 B40C 00000002		xor omega[esp+ecx], -101b 
+	R FB			
+ 013C  65: 81 B41F 00000002		xor gs: omega[edi+ebx], 345-91-(63-84)/
+				2 
+	R 00000108		
+ 0148					ending: 
+ 0148				Code1 ends 
+				end 
+Microsoft (R) Macro Assembler Version 5.00                  5/16/15 16:58:52
+                                                             Symbols-1
+
+
+
+
+                N a m e         	Size	Length	 Align	Combine Class
+
+CODE1  . . . . . . . . . . . . .  	32 Bit	0148	PARA	NONE	
+DATA1  . . . . . . . . . . . . .  	32 Bit	0010	PARA	NONE	
+
+Symbols:            
+
+                N a m e         	Type	 Value	 Attr
+
+ALPHA  . . . . . . . . . . . . .  	L BYTE	0006	DATA1
+
+BEG  . . . . . . . . . . . . . .  	L NEAR	0000	CODE1
+BETA . . . . . . . . . . . . . .  	NUMBER	000C	
+
+CLIS . . . . . . . . . . . . . .  	L NEAR	001A	CODE1
+
+DELTA  . . . . . . . . . . . . .  	NUMBER	-0002	
+DIVS . . . . . . . . . . . . . .  	L NEAR	0070	CODE1
+
+ENDING . . . . . . . . . . . . .  	L NEAR	0148	CODE1
+
+GAMMA  . . . . . . . . . . . . .  	L BYTE	000F	DATA1
+
+INCS . . . . . . . . . . . . . .  	L NEAR	0031	CODE1
+
+MOVES  . . . . . . . . . . . . .  	L NEAR	0009	CODE1
+
+OMEGA  . . . . . . . . . . . . .  	L DWORD	0002	DATA1
+
+SEX  . . . . . . . . . . . . . .  	ALIAS	 EAX		
+STEP . . . . . . . . . . . . . .  	L NEAR	003C	CODE1
+
+ULTA . . . . . . . . . . . . . .  	NUMBER	0008	
+
+VAL1 . . . . . . . . . . . . . .  	L WORD	0000	DATA1
+
+@FILENAME  . . . . . . . . . . .  	TEXT  a		
+
+
+    112 Source  Lines
+    112 Total   Lines
+     19 Symbols
+
+  50976 + 465568 Bytes symbol space free
+
+      0 Warning Errors
+      0 Severe  Errors

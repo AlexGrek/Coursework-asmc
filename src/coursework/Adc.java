@@ -81,7 +81,7 @@ public class Adc extends Instruct {
         
         //установим целевой сегмент, если не указан явно
         if (actualSeg == null) {
-            actualSeg = mem.segment.usedIn;
+            actualSeg = "ds";
         }
         
         //сверим размер данных и регистра

@@ -11,7 +11,6 @@ public class Data implements Errorable  {
     int[] data;
     int offset;
     String error;
-    public Segment segment;
     private Type type; //тип данных
     
     public Data(Lex[] lx, Map<String, Data> varTable, Segment seg, int o) {
@@ -21,13 +20,19 @@ public class Data implements Errorable  {
             error = "a variable with same name already exists";
             return;
         }
+        
+        //проверим, в каком сегменте указана переменная
+        if (seg.getType() != Segment.Type.DATA) {
+            error = "not in data segment";
+            return;
+        }
+        
+        //добавим переменную в таблицу переменных
         varTable.put(lx[0].getText(), this);
         
         //сохраним смещение в сегменте
         offset = o;
         
-        //запомним, в каком она сегменте
-        segment = seg;
         
         //определим тип данных
         switch (lx[1].getText()) {
@@ -106,14 +111,16 @@ public class Data implements Errorable  {
         for(int b : data) {
             switch (type) {
                 case DB:
-                    s += String.format("%2d ", b);
+                    s += String.format("%02X ", b);
+                    break;
                 case DW:
-                    s += String.format("%4d ", b);
+                    s += String.format("%04X ", b);
+                    break;
                 case DD:
-                    s += String.format("%8d ", b);
+                    s += String.format("%08X ", b);
             }
         }
-        return s; //this will never happen
+        return s;
     }
 
     public int getSize() {

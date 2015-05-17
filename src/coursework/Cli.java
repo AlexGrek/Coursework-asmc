@@ -19,6 +19,9 @@ package coursework;
         
         @Override
         public String toString() {
+            if (error != null) {
+                return error;
+            }
             //код операции тоже не меняется
             return "FA ";
         }

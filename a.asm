@@ -6,6 +6,7 @@ alpha    db 'Prodan A.'
 beta    equ 5+(10-8)*2+3
 delta equ -2
 ulta equ 8
+sex equ eax
 gamma    db 0101b
 Data1 ends
 

@@ -32,6 +32,16 @@ public class LexTable {
     }
     
     /**
+     * заменить лексему
+     * @param index номер лексемы
+     * @param to лексема, на которую будет заменена лексема по индексу index
+     */
+    public void Change(int index, Lex to) {
+        lexems.remove(index);
+        lexems.add(index, to);
+    }
+    
+    /**
      * вернуть лексему по заданному индексу
      * @param n индекс
      * @return лексема по индексу n
@@ -176,7 +186,6 @@ public class LexTable {
             case "ends":
             case "end":
             case "equ":
-            case "assume":
                 t = Lex.Type.dir;
                 break;
             case "cli":
@@ -207,7 +216,7 @@ public class LexTable {
             //yes, it is
             if ((lex.endsWith("\"") || lex.endsWith("'")) && lex.length() > 2) {
                 //return only text, without the " symbols
-                return new Lex(lex.substring(1, lex.length() - 2), Lex.Type.text);
+                return new Lex(lex.substring(1, lex.length() - 1), Lex.Type.text);
             }
             //string doesen't end with " or is empty - return undefined
             return new Lex(pvalue, Lex.Type.undefined);

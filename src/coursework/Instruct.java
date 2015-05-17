@@ -174,5 +174,12 @@ public abstract class Instruct implements Errorable {
         
         return String.format("%02X: ", prefix);
     }
+    
+    public String getSib(String base, String index) {
+        int sib = 0; //00 000 000
+        sib += getReg32(index) << 3;
+        sib += getReg32(base);
+        return String.format("%02X ", sib);
+    }
 }
 

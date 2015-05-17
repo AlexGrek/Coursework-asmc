@@ -15,13 +15,22 @@ public class Line {
     int offset = -1;
     String error;
     Errorable content;
+    String output;
     
     
     public Line(LexTable lext, Reader current) {
         //если таблица лексем пустая - то это пустая строка
         if (lext.size() == 0) {
-            type = type.EMPTY;
+            type = Type.EMPTY;
             return;
+        }
+        
+        //найдем константы, заданные equ, и заменим значениями
+        for(int i = 0; i < lext.size(); i++) {
+            String lexeme = lext.get(i).getText();
+            if (current.constants.containsKey(lexeme)) {
+                lext.Change(i, current.constants.get(lexeme));
+            }
         }
         
         //если не пустая строка после директивы END
@@ -32,12 +41,13 @@ public class Line {
         
         //если это директива end - конец файла
         if (lext.size() == 1 && lext.get(0).textEquals("end")) {
-            type = type.END;
+            type = Type.END;
             if (current.openSegment != null) {
                 error = "segment " + current.openSegment.getName() + 
                         " is not closed";
             }
             current.end = true; //флаг конца файла
+            output = "file ended, bitch!";
             return;
         }
         
@@ -53,13 +63,31 @@ public class Line {
         if (lext.size() >= 3 && lext.get(0).getType() == Lex.Type.userId &&
                 lext.get(1).textEquals("equ")) {
             type = Type.EQU;
+            if (current.constants.containsKey(lext.get(0).getText())) {
+                error = "this constant is already defined";
+                return;
+            }
+            Lex result = null;
+            if (lext.size() == 3) {
+                result = lext.get(2);
+                current.constants.put(lext.get(0).getText(), result);
+            } else
             try {
                 //попытаться вычислить выражение
-                Lex result = Calculator.equ(lext.getPart(2));
+                result = Calculator.equ(lext.getPart(2));
                 //в случае удачи - добавить его в таблицу констант
                 current.constants.put(lext.get(0).getText(), result);
             } catch (Exception e) { //в случае неудачи записать ошибку
                 error = "cannot calculate expression";
+                return;
+            }
+            //если это числовая константа - красиво ее выведем
+            if (result.isValueType()) {
+                output = result.getValue() >= 0 ? 
+                        String.format("= %04X ", result.getValue()) : 
+                        String.format("=-%04X ", -result.getValue());
+            } else {
+                output = "="; //если это алиас
             }
             return;
         }
@@ -74,10 +102,28 @@ public class Line {
                             current.openSegment.getName();
                     return;
                 }
+                Segment.Type t = Segment.Type.UNKNOWN;
+                //определим тип создаваемого сегмента
+                if (current.dataSegment == null) {
+                    t = Segment.Type.DATA; // если сегмента данных еще нет
+                                           // то это он
+                }  else {
+                    if (current.codeSegment == null)
+                        t = Segment.Type.CODE; //то же, если сегмента кодов нет
+                    else {
+                        //если и код и данные уже есть - значит ошибка
+                        error = "data and code segments are already defined";
+                        return;
+                    }
+                }
                 //создадим новый сегмент
-                Segment ns = new Segment(lext.get(0).getText());
-                current.segs.put(ns.getName(), ns); //добавим его в таблицу
+                Segment ns = new Segment(lext.get(0).getText(), t);
                 current.openSegment = ns;   //сделаем его текущим
+                //сделаем его сегментом данных или кодов
+                if (t == Segment.Type.DATA)
+                    current.dataSegment = ns;
+                else
+                    current.codeSegment = ns;
                 offset = 0; //смещение текущей строки = 0
                 current.resetOffset();  //смещение в новом сегменте = 0
                 type = Type.SEGMENT_START;
@@ -96,7 +142,7 @@ public class Line {
                 current.openSegment.size = current.getOffset();//определим длину
                 current.openSegment = null;   //удалим текущий сегмент
                 offset = current.getOffset();   //смещение = размер сегмента
-                current.resetOffset();
+                current.resetOffset(); //сбросим текущее смещение в 0
                 return;
             }
         }
@@ -104,24 +150,6 @@ public class Line {
         if (current.openSegment == null) {
             error = "not in segment";
             type = Type.UNKNOWN;
-            return;
-        }
-        
-        //если это директива assume
-        if (lext.size() > 2 && lext.get(0).textEquals("assume")) {
-            type = Type.ASSUME;
-            //если директива assume уже была
-            if (current.segTable != null) {
-                error = "second assume directive";
-                return;
-            }
-            //создаем новую таблицу сегментов
-            SegmentTable segt = new SegmentTable(lext.getPart(1) ,current.segs);
-            if (segt.valid) { //если прочитать удалось
-                current.segTable = segt;
-            } else { //если прочитать не удалось
-                error = "invalid assume directive";
-            }
             return;
         }
         
@@ -175,6 +203,13 @@ public class Line {
                 lext.get(1).textEquals(":")) {          // :
             //если метка найдена - обработаем метку
             type = Type.LABEL;
+            //для начала проверим текущий сегмент
+            if (current.openSegment != null && 
+                    current.openSegment.getType() != Segment.Type.CODE) {
+                error = "not in code segment";
+                offset = current.getOffset();
+                return;
+            }
             //проверим, не встречалась ли такая метка ранее
             if (current.labels.containsKey(lext.get(0).getText())) {
                 error = "this label name is already in use";
@@ -206,6 +241,13 @@ public class Line {
         //если это команда без метки
         if (lext.get(0).getType() == Lex.Type.instruct) {
             type = Type.COMMAND;
+            //текущий сегмент должен быть сегментом кодов
+            if (current.openSegment != null && 
+                    current.openSegment.getType() != Segment.Type.CODE) {
+                error = "not in code segment";
+                offset = current.getOffset();
+                return;
+            }
             Instruct ins = Instruct.create(lext.getArray(), current.variables,
                     current.getOffset(), current.labels, current.constants);
             if (ins == null) {  //если не команда
@@ -230,6 +272,9 @@ public class Line {
         }
         if (error != null) {
             s += " error: " + error;
+        }
+        if (output != null) {
+            s += output;
         }
         if (content != null) {
             s += content.getClass().toString() + " " + content.toString();

@@ -14,7 +14,6 @@ public class Segment {
     private Type type;
     private final String name;
     public int size;
-    public String usedIn; //segment register
     
     /**
      *
@@ -24,23 +23,11 @@ public class Segment {
         return name;
     }
     
-    /**
-     *проверить тип сегмента
-     * @param t
-     * @return соответствует ли тип сегмента
-     */
-        public boolean checkType(Type t) {
-        //если тип сегмента еще не определен - задать его
-        if (type == Type.UNKNOWN)
-            type = t;
-        //сверить тип
-        return type == t;
-    } 
     
-    public Segment(String n) {
+    public Segment(String n, Type t) {
         name = n;
-        //при создании сегмента его тип неизвестен
-        type = Type.UNKNOWN;
+        //при создании сегмента его тип известен
+        type = t;
     }
     
     /**

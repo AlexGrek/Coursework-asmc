@@ -3,15 +3,16 @@
 data1 [userId(5)]   segment [dir(7)]   
 val1 [userId(4)]   dw [dataDir(2)]   0ah [constHex(3)]10   
 omega [userId(5)]   dd [dataDir(2)]   312 [constDec(3)]312   
-alpha [userId(5)]   db [dataDir(2)]   Prodan A [text(8)]   
+alpha [userId(5)]   db [dataDir(2)]   Prodan A. [text(9)]   
 beta [userId(4)]   equ [dir(3)]   5 [constDec(1)]5   + [single(1)]   ( [single(1)]   10 [constDec(2)]10   - [single(1)]   8 [constDec(1)]8   ) [single(1)]   * [single(1)]   2 [constDec(1)]2   + [single(1)]   3 [constDec(1)]3   
 delta [userId(5)]   equ [dir(3)]   - [single(1)]   2 [constDec(1)]2   
 ulta [userId(4)]   equ [dir(3)]   8 [constDec(1)]8   
+sex [userId(3)]   equ [dir(3)]   eax [reg32(3)]   
 gamma [userId(5)]   db [dataDir(2)]   0101b [constBin(5)]5   
 data1 [userId(5)]   ends [dir(4)]   
 
 code1 [userId(5)]   segment [dir(7)]   
-assume [dir(6)]   cs [seg(2)]   : [single(1)]   code1 [userId(5)]   , [single(1)]   ds [seg(2)]   : [single(1)]   data1 [userId(5)]   
+assume [userId(6)]   cs [seg(2)]   : [single(1)]   code1 [userId(5)]   , [single(1)]   ds [seg(2)]   : [single(1)]   data1 [userId(5)]   
 
 beg [userId(3)]   : [single(1)]   
 

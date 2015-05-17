@@ -63,7 +63,7 @@ public class And extends Instruct {
         
         //установим целевой сегмент, если не указан явно
         if (actualSeg == null) {
-            actualSeg = mem.segment.usedIn;
+            actualSeg = "ds";
         }
         
         //определим регистры адресации

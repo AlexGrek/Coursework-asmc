@@ -27,7 +27,7 @@ public class Reader {
     /**
      *  таблица констант
      */
-    public Map<String, Lex> constants; 
+    public Map<String, Lex> constants;
 
     /**
      *  таблица переменных
@@ -41,25 +41,27 @@ public class Reader {
      */
     public Segment openSegment;
 
-    /**
-     * таблица сегментов
-     */
-    public Map<String, Segment> segs;
     
     /**
      * флаг конца файла
      */
     public boolean end = false;
 
-    /**
-     * таблица сегментных регистров
-     */
-    public SegmentTable segTable;
 
     /**
-     * таблица сегментов
+     * таблица меток
      */
     public Map<String, Label> labels;
+    
+    /**
+     * Сегмент данных
+     */
+    public Segment dataSegment;
+
+    /**
+     * Сегмент кодов
+     */
+    public Segment codeSegment;
     
     public Reader() {
         lexTables = new ArrayList<>();
@@ -127,7 +129,6 @@ public class Reader {
         lines = new Line[lexTables.size()];
         constants = new HashMap<>();
         labels = new HashMap<>();
-        segs = new HashMap<>();
         variables = new HashMap<>();
         int i = 0;
         for(LexTable lt: lexTables) {
